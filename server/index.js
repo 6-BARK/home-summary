@@ -14,7 +14,11 @@ app.use(express.urlencoded({'extended': true}));
 // specify the directory of static files
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-app.post('/api/summary/data/:id', (req, res) => {
+app.post('/api/summary/addData/', (req, res) => {
+  // get most recent id number (or db function can do this)
+  // get new data we want to add to db
+  // call db function to add to db
+  // send back success or error message
   res.send('post request');
 })
 
@@ -36,10 +40,15 @@ app.get('/api/summary/data/:id', (req, res) =>{
 })
 
 app.put('/api/summary/data/:id', (req, res) => {
+  // grab new data to use for the update
+  // use a db function to query the update with new data
+  // send back a success message or error
   res.send('update request');
 })
 
 app.delete('/api/summary/data/:id', (req, res) => {
+  // grab ID from current home
+  // call db function to delete that home from db
   res.send('delete request');
 })
 
