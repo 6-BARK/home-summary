@@ -36,3 +36,9 @@ const contactSchema = new Schema({
 const House = mongoose.model('houses', houseSchema);
 const Agent = mongoose.model('agents', agentSchema);
 const Contact = mongoose.model('contactRequests', contactSchema);
+
+module.exports = {
+  House,
+  Agent,
+  Contact
+}
