@@ -9,7 +9,7 @@ Post Requests:
   - Requesting contact with an agent for a listing
 
 !!! NOTE, Primary agent's ID will be required for creating a listing.
-!!! If agent does not have an ID, create the agent's information first with API endpoint below.
+If agent does not have an ID, create the agent's information first with API endpoint below.
 
 // Creating a new home listing
   - Endpoint: '/api/listing'
@@ -101,7 +101,8 @@ Put Requests:
   - To DELETE: use a delete request below that will remove an agent from a listing
 
 // Updating a home listing's information
-  - Endpoint: '/api/listing/:id/data'
+  - Endpoint: '/api/agent/:agentId/listing/:id/data'
+    - {agentId} needs to be the ID of the listings PRIMARY agent for updating
     - {id} specifies which listing's data you are requesting to update
   - Request body options:
   { price: integer,
@@ -111,8 +112,7 @@ Put Requests:
     sqft: interger,
     listingType: text,
     zestimate: integer,
-    estPayment: integer,
-    primaryAgent: integer (agentId) }
+    estPayment: integer }
   - Response expected:
     - A success or error message
 
@@ -133,8 +133,8 @@ Put Requests:
 Delete - Deletes a home's data from the database
 
 // Deletes a home listing from database
-  - Endpoint: '/api/user/:userId/listing/:id/data'
-    - {userId} specifies the user to make sure they have authorization to delete
+  - Endpoint: '/api/agent/:agentId/listing/:id/data'
+    - {agentId} needs to be the ID of the listings PRIMARY agent for deleting
     - {id} specifies which listing's data you are requesting to delete
   - Request body not required or needed
   - Response expected:
