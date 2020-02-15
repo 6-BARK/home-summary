@@ -11,7 +11,8 @@ const houseSchema = new Schema({
   listingType: String,      // (one of 'for sale', 'for rent', 'sold')
   zestimate : Number,       // price in $
   estPayment: Number,       // price in $
-  primaryAgent: Number      // agent id number
+  primaryAgent: Number,     // agent id number
+  allAgents: []             // array of agent id's assigned to this home
 });
 
 const agentSchema = new Schema({
