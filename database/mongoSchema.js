@@ -12,7 +12,7 @@ const houseSchema = new Schema({
   zestimate : Number,       // price in $
   estPayment: Number,       // price in $
   primaryAgent: Number,     // agent id number
-  allAgents: []             // array of agent id's assigned to this home
+  allAgents: []             // array of agent id numbers assigned to this home
 });
 
 const agentSchema = new Schema({
