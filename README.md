@@ -2,104 +2,155 @@
 
 CRUD API Endpoint Functionality:
 ------------------------------------------------
-Post - Sends new data on a NEW home or agent to be stored in database
+Post Requests:
+  - Adding new home listings
+  - Adding a new agent
+  - Assigning an agent to a listing
+  - Requesting contact with an agent for a listing
 
-// Post a new home
-app.post('/api/summary/newListing', (req, res) => {
-  req.body = {
-    houseId: integer(auto incrememnt),
-    price: integer,
-    bedCount: smallint,
-    bathCount: smallint,
-    address: text,
-    listingType: text,
-    zestimate: integer,
-    estPayment: integer
-  }
-  res.send(${ Success or an error message })
-})
+!!! NOTE, Primary agent's ID will be required for creating a listing.
+If agent does not have an ID, create the agent's information first with API endpoint below.
 
-// Post a new agent's information to database
-app.post('/api/agents', (req, res) => {
-  req.body = {
+// Creating a new home listing
+  - Endpoint: '/api/listing'
+  - REQUIRED body information:
+    { houseId: integer(auto incrememnt, not null) ,
+      price: integer not null,
+      bedCount: smallint not null,
+      bathCount: smallint not null,
+      address: text not null,
+      sqft: interger not null,
+      listingType: text not null,
+      zestimate: integer not null,
+      estPayment: integer not null,
+      primaryAgent: integer (agentId) }
+  - Response expected:
+    A success message:
+    'Listing successfully created'
+    or error message & code:
+    'ERROR CODE, something went wrong! Please try again.'
+
+// Creating a new agent
+  - Endpoint: '/api/agents'
+  - REQUIRED body information:
+    { agentId: integer not null,
+      agentName: text not null,
+      agentType: text not null,
+      starCount: smallint not null,
+      reviewCount: smallint not null,
+      phoneNumber: text not null }
+  - Response expected:
+    A success message:
+    'Agent successfully added'
+    or error message & code:
+    'ERROR CODE, something went wrong! Please try again.'
+
+// Assigning an agent to a house listing
+  - Endpoint: '/api/listingAgent'
+  - REQUIRED body information:
+  { houseId: integer not null,
+    agentId: integer not null }
+  - Response expected:
+    A success message:
+    'Agent successfully added'
+    or error message & code:
+    'ERROR CODE, something went wrong! Please try again.'
+
+// Requesting contact with an agent for a listing
+  - Endpoint: '/api/listing/:id/agent/:agentId/contact'
+    - {id} specifies which listing
+    - {agentId} specifies which agent you'd like to contact
+  - REQUIRED body information:
+  { requestId: integer,
+    houseId: integer
     agentId: integer,
-    agentName: text,
-    agentType: text,
-    starCount: smallint,
-    reviewCount: smallint,
-    phoneNumber: text,
-  }
-  res.send(${ Success or an error message })
-})
+    customerName: text,
+    customerPhone: text,
+    customerMessage: text }
+  - Response expected:
+    - A success or error message
 
-// Post an agent to a house listing
-app.post('/api/listingAgent', (req, res) => {
-  req.body = {
-    houseId: integer (reference House info table),
-    agentId: integer (reference Agent Info table)
-  }
-  res.send(${ Success or an error message })
-})
 ------------------------------------------------
-Get - grabs stored data on a home for the client to display
+Get Requests:
+  - Getting a house listing's information
 
-app.get('/api/summary/data/:id', (req, res) => {
-  req.body = {none}
-  res.send({
-    houseId: integer(auto increment),
+// Getting a house listing's information
+  - Endpoint: '/api/listing/:id/data'
+    - {id} specifies which listing's data you are requesting
+  - Request body not required or needed
+  - Response expected:
+    - A JSON object with the following fields (All fields will have values):
+  { houseId: integer(auto increment),
     price: integer,
     bedCount: smallint,
     bathCount: smallint,
     address: text,
+    sqft: interger,
     listingType: text,
     zestimate: integer,
-    estPayment: integer
-  })
-})
-------------------------------------------------
-Put - Updates data on an existing home's dataset
+    estPayment: integer,
+    primaryAgent: integer (agentId) }
 
-// Updates a homes data in database
-app.put('/api/summary/data/:id', (req, res) => {
-  var {id} = req.params;
-  var newData = req.body;
-  ${ db update query here using newData and id } (
-    res.send({ Success or error })
-  )
-})
+------------------------------------------------
+Put Requests:
+  - Updating a home listing's information
+  - Updating an agent's information
+
+!!! NOTE, if you want to update which agents are assigned to a listing:
+  - To ASSIGN: use a POST request above that assigns an agent to a listing
+  - To DELETE: use a delete request below that will remove an agent from a listing
+
+// Updating a home listing's information
+  - Endpoint: '/api/agent/:agentId/listing/:id/data'
+    - {agentId} needs to be the ID of the listings PRIMARY agent for updating
+    - {id} specifies which listing's data you are requesting to update
+  - Request body options:
+  { price: integer,
+    bedCount: smallint,
+    bathCount: smallint,
+    address: text,
+    sqft: interger,
+    listingType: text,
+    zestimate: integer,
+    estPayment: integer }
+  - Response expected:
+    - A success or error message
 
 // Updates an agents information in database
-app.put('/api/agents/:id', (req, res) => {
-  var {id} = req.params;
-  var newData = req.body;
-  ${ db update query here } (
-    res.send({ Success or error })
-  )
-})
+  - Endpoint: '/api/agents/:id'
+    - {id} specifies which agent's information you'd like to update
+  - Request body options:
+    { agentId: integer not null,
+      agentName: text not null,
+      agentType: text not null,
+      starCount: smallint not null,
+      reviewCount: smallint not null,
+      phoneNumber: text not null }
+  - Response expected:
+    - A success or error message
+
 ------------------------------------------------
 Delete - Deletes a home's data from the database
 
 // Deletes a home listing from database
-app.delete('/api/summary/data/:id', (req, res) => {
-  var {id} = req.params;
-  ${ delete query for db here using house id } (
-    res.send(${ success or error })
-  )
-})
+  - Endpoint: '/api/agent/:agentId/listing/:id/data'
+    - {agentId} needs to be the ID of the listings PRIMARY agent for deleting
+    - {id} specifies which listing's data you are requesting to delete
+  - Request body not required or needed
+  - Response expected:
+    - A success or error message
 
 // Deletes an agents info from database
-app.delete('/api/agents/:agentId, (req, res) => {
-  var {agentId} = req.params;
-  ${ delete query here } (
-    res.send({ Success or error })
-  )
-})
+  - Endpoint: '/api/agents/:id/account/'
+    - {id} specifies which agent's data you are requesting to delete
+  - Request body not required or needed
+  - Response expected:
+    - A success or error message
 
 // Deletes an agent from a houses listing
-app.delete('/api/listingAgent/:houseId', (req, res) => {
-  var {houseId} = req.params;
-  ${ delete query here } (
-    res.send({ Success or error })
-  )
-})
+  - Endpoint: '/api/listing/:id/agents/:agentId'
+    - {id} specifies which listing you need to remove an agent from
+    - {agentId} specifies which agent you are removing from the listing
+  - Request body not required or needed
+    - A success or error message
 ------------------------------------------------
