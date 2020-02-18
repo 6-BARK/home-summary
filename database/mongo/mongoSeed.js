@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 const Models = require('./mongoSchema.js');
 const faker = require('faker');
+const fs = require('fs');
 
 const dbName = 'xillowDB';
 mongoose.connect(`mongodb://localhost/${dbName}`, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    seedHomes();
-    seedAgents();
-  })
 
 const getRandomNumber = (min, max) => {
   min = Math.ceil(min);
@@ -40,7 +37,7 @@ const getPriceAndType = () => {
 }
 
 const seedHomes = () => {
-  for (var i = 1; i < 100000; i++) {
+  for (var i = 1; i < 6; i++) {
     let houseStats = getPriceAndType();
     let newHome = new Models.House({
       houseId: i,
@@ -61,7 +58,7 @@ const seedHomes = () => {
 }
 
 const seedAgents = () => {
-  for (var i = 0; i < 100000; i++) {
+  for (var i = 1; i < 100000; i++) {
     let random = getRandomNumber(1, 10);
     let agentType;
     if (random <= 3) {
@@ -81,3 +78,5 @@ const seedAgents = () => {
   }
   return console.log("Agent data finished seeding.")
 }
+
+seedHomes();
