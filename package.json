@@ -11,8 +11,9 @@
     "start": "NODE_ENV=production node database/seedDB.js && NODE_ENV=production node server/index.js",
     "test": "jest",
     "mongoDb": "nodemon database/mongo/db.js",
-    "seedMongoHomes": "time node database/mongo/mongoSeedHomes.js",
-    "seedMongoAgents": "time node database/mongo/mongoSeedAgents.js"
+    "generateMongoHomes": "time node database/mongo/mongoSeedHomes.js",
+    "generateMongoAgents": "time node database/mongo/mongoSeedAgents.js",
+    "seedMongoDb": "time mongoimport --db=xillowDB --collection=houses --type=csv --headerline --file=../../homes.csv"
   },
   "repository": {
     "type": "git",
