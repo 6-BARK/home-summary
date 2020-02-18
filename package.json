@@ -10,7 +10,8 @@
     "seedDB": "node database/seedDB.js",
     "start": "NODE_ENV=production node database/seedDB.js && NODE_ENV=production node server/index.js",
     "test": "jest",
-    "mongoDb": "nodemon database/mongo/db.js"
+    "mongoDb": "nodemon database/mongo/db.js",
+    "seedMongo": "node database/mongo/mongoSeed.js"
   },
   "repository": {
     "type": "git",
