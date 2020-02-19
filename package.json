@@ -13,7 +13,8 @@
     "mongoDb": "nodemon database/mongo/db.js",
     "generateMongoHomes": "time node database/mongo/mongoSeedHomes.js",
     "generateMongoAgents": "time node database/mongo/mongoSeedAgents.js",
-    "seedMongoDb": "time mongoimport --db=xillowDB --collection=houses --type=csv --headerline --file=../../homes.csv"
+    "seedMongoHomes": "time mongoimport --db=xillowDB --collection=houses --type=csv --headerline --file=../../homes.csv",
+    "seedMongoAgents": "time mongoimport --db=xillowDB --collection=agents --type=csv --headerline --file=../../agents.csv"
   },
   "repository": {
     "type": "git",
