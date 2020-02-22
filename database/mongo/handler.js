@@ -16,7 +16,41 @@ const postAgent = (data, callback) => {
   })
 }
 
+const getListing = (id, callback) => {
+  let query = mongo.House.where({
+    houseId: id
+  })
+  query.findOne((err, listing) => {
+    if (err) {
+      callback(err);
+    }
+    if (listing === null) {
+      callback(null, 'No such home listing.');
+    } else {
+      callback(null, listing);
+    }
+  })
+}
+
+const getAgent = (id, callback) => {
+  let query = mongo.Agent.where({
+    agentId: id
+  })
+  query.findOne((err, agent) => {
+    if (err) {
+      callback(err);
+    }
+    if (agent === null) {
+      callback(null, 'No matching agent.');
+    } else {
+      callback(null, agent);
+    }
+  })
+}
+
 module.exports = {
   postListing,
-  postAgent
+  postAgent,
+  getListing,
+  getAgent
 }

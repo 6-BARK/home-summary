@@ -1,5 +1,6 @@
 const helper = require('../database/mongo/handler.js');
 
+// Adding new home listing
 const handleNewListing = (req, res) => {
   let data = req.body;
   helper.postListing(data , (error, data) => {
@@ -9,7 +10,7 @@ const handleNewListing = (req, res) => {
     res.sendStatus(200);
   })
 }
-
+// Adding new agent
 const handleNewAgent = (req, res) => {
   let data = req.body;
   helper.postAgent(data, (error, data) => {
@@ -19,8 +20,35 @@ const handleNewAgent = (req, res) => {
     res.sendStatus(200);
   });
 }
+// Assigning agent to listing
+const handleAssign = (req, res) => {
+  let data = req.body;
+
+}
+// Get listing data
+const handleGetListing = (req, res) => {
+  let id = (req.params).id;
+  helper.getListing(id, (err, listing) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    res.send(listing);
+  })
+}
+//Get agent data
+const handleGetAgent = (req, res) => {
+  let id = (req.params).id;
+  helper.getAgent(id, (err, agent) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    res.send(agent);
+  })
+}
 
 module.exports = {
   handleNewListing,
-  handleNewAgent
+  handleNewAgent,
+  handleGetListing,
+  handleGetAgent
 }

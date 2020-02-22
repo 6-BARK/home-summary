@@ -21,22 +21,10 @@ app.post('/api/listing', controller.handleNewListing);
 // endpoint for adding new agent
 app.post('/api/agents', controller.handleNewAgent);
 
-// response to request
-app.get('/api/summary/data/:id', (req, res) =>{
-  var {id} = req.params;
-  retrieve(id, (err, data) =>{
-    if (err) { // if error occures, send status code of 500
-      console.log(err);
-      res.send(500);
-    } else {
-      if(data){ // send data back to client if retrieved
-        res.jsonp(data);
-      } else { // if query succeed but no data retrieve, send message to client about issue
-        res.send('no house with such id value');
-      }
-    }
-  });
-})
+// endpoint for getting a listings data
+app.get('/api/listing/:id/data', controller.handleGetListing)
+
+app.get('/api/agents/:id/data', controller.handleGetAgent)
 
 app.put('/api/summary/data/:id', (req, res) => {
   // grab new data to use for the update
