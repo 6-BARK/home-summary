@@ -3,8 +3,8 @@ const Models = require('./mongoSchema.js');
 const faker = require('faker');
 const fs = require('fs');
 
-const writeHomes = fs.createWriteStream('../../homes.csv');
-writeHomes.write('houseId,price,bedCount, bathCount, sqft, address, city, stateZip, listingType, zestimate, estPayment, primaryAgent,allAgents\n', 'utf8');
+const writeHomes = fs.createWriteStream('../../homesPsql.csv');
+writeHomes.write('houseId, price, bedCount, bathCount, sqft, streetAddress, city, state, zipCode, listingType, zestimate, estPayment, primaryAgent, allAgents\n', 'utf8');
 
 const getPriceAndType = () => {
   let result = {}
@@ -36,6 +36,15 @@ const getRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+const getRandomAgents = () => {
+  let amount = getRandomNumber(1, 5);
+  let result = [];
+  for (var i = 0; i <= amount; i++) {
+    result.push(getRandomNumber(1,1000001))
+  }
+  return result;
+}
+
 const writeTenMillionHomes = (writer, encoding, callback) => {
   let i = 10000000;
   let houseId = 0;
@@ -50,13 +59,16 @@ const writeTenMillionHomes = (writer, encoding, callback) => {
       const bedCount = getRandomNumber(1, 10);
       const bathCount = getRandomNumber(1, 10);
       const sqft = houseStats.sqft;
-      const address = faker.fake("{{address.streetAddress}} {{address.secondaryAddress}}, {{address.city}}, {{address.stateAbbr}}") + " " + faker.fake("{{address.zipCode}}").substring(0,5);
+      const streetAddress = faker.fake("{{address.streetAddress}} {{address.secondaryAddress}}");
+      const city = faker.fake("{{address.city}}");
+      const state = faker.fake("{{address.stateAbbr}}");
+      const zipCode = faker.fake("{{address.zipCode}}").substring(0,5);
       const listingType = houseStats.listingType;
       const zestimate = faker.fake("{{commerce.price}}") * (10 ** 4);
       const estPayment = faker.fake("{{commerce.price}}");
-      const primaryAgent = houseId;
-      const allAgents = [];
-      const data = `${houseId}, ${price}, ${bedCount}, ${bathCount}, ${sqft}, ${address}, ${listingType}, ${zestimate}, ${estPayment}, ${primaryAgent}, ${allAgents}\n`;
+      const primaryAgent = getRandomNumber(1, 1000001);
+      const allAgents = getRandomAgents();
+      const data = `${houseId},${price},${bedCount},${bathCount},${sqft},${streetAddress},${city},${state},${zipCode},${listingType},${zestimate},${estPayment},${primaryAgent},${allAgents}\n`;
       if (i === 0) {
         writer.write(data, encoding, callback);
       } else {

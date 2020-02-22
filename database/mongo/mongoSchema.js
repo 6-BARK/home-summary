@@ -7,7 +7,10 @@ const houseSchema = new Schema({
   bedCount: Number,         // #bedroom count
   bathCount: Number,        // #bathroom count
   sqft: Number,             // size of house in sqft
-  address: String,          // address
+  streetAddress: String,    // street of the home
+  city: String,             // city of the home
+  state: String,            // state of the home
+  zipCode: String,          // zipcode of the home
   listingType: String,      // (one of 'for sale', 'for rent', 'sold')
   zestimate : Number,       // price in $
   estPayment: Number,       // price in $

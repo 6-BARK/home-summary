@@ -14,11 +14,9 @@ app.use(express.urlencoded({'extended': true}));
 // specify the directory of static files
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-app.post('/api/summary/addData/', (req, res) => {
-  // get most recent id number (or db function can do this)
-  // get new data we want to add to db
-  // call db function to add to db
-  // send back success or error message
+app.post('/api/listing', (req, res) => {
+  let newData = req.body;
+
   res.send('post request');
 })
 
