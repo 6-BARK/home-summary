@@ -33,7 +33,7 @@ const writeManyAgents = (writer, encoding, callback) => {
       const starCount = getRandomNumber(1, 6);
       const reviewCount = getRandomNumber(5, 1000);
       const phoneNumber = faker.fake("{{phone.phoneNumber}}");
-      const data = `${agentId}, ${agentName}, ${agentType}, ${starCount}, ${reviewCount}, ${phoneNumber}\n`;
+      const data = `${agentId},${agentName},${agentType},${starCount},${reviewCount},${phoneNumber}\n`;
 
       if (i === 0) {
         writer.write(data, encoding, callback);

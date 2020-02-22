@@ -36,47 +36,76 @@ const getPriceAndType = () => {
   }
 }
 
-const seedHomes = () => {
-  for (var i = 1; i < 6; i++) {
-    let houseStats = getPriceAndType();
-    let newHome = new Models.House({
-      houseId: i,
-      price: houseStats.price,
-      bedCount: getRandomNumber(1, 10),
-      bathCount: getRandomNumber(1, 10),
-      sqft: houseStats.sqft,
-      address: faker.fake("{{address.streetAddress}} {{address.secondaryAddress}}, {{address.city}}, {{address.stateAbbr}}") + " " + faker.fake("{{address.zipCode}}").substring(0,5),
-      listingType: houseStats.listingType,
-      zestimate: faker.fake("{{commerce.price}}") * (10 ** 4),
-      estPayment: faker.fake("{{commerce.price}}"),
-      primaryAgent: i,
-      allAgents: []
-    })
-    return newHome.save();
+const getRandomAgents = () => {
+  let amount = getRandomNumber(1, 5);
+  let result = [];
+  for (var i = 0; i <= amount; i++) {
+    result.push(getRandomNumber(1,1000001))
   }
-  return console.log("House listing data finished seeding.")
+  return result;
 }
 
-const seedAgents = () => {
-  for (var i = 1; i < 100000; i++) {
-    let random = getRandomNumber(1, 10);
-    let agentType;
-    if (random <= 3) {
-      agentType = 'Seller\'s'
-    } else {
-      agentType = 'Premier'
+async function seedHomes(outer, inner) {
+  let id = 1;
+  for (var i = 0; i < outer; i++) {
+    let data = [];
+    for (var j = 0; j < inner; j++) {
+      let houseStats = getPriceAndType();
+      let newHome = {
+        houseId: id,
+        price: houseStats.price,
+        bedCount: getRandomNumber(1, 10),
+        bathCount: getRandomNumber(1, 10),
+        sqft: houseStats.sqft,
+        streetAddress: faker.fake("{{address.streetAddress}} {{address.secondaryAddress}}"),
+        city: faker.fake("{{address.city}}"),
+        state: faker.fake("{{address.stateAbbr}}"),
+        zipCode: faker.fake("{{address.zipCode}}").substring(0,5),
+        listingType: houseStats.listingType,
+        zestimate: faker.fake("{{commerce.price}}") * (10 ** 4),
+        estPayment: faker.fake("{{commerce.price}}"),
+        primaryAgent: getRandomNumber(1, 1000001),
+        allAgents: getRandomAgents()
+      }
+      data.push(newHome);
+      id += 1;
     }
-    let newAgent = new Models.Agent({
-      agentId: i,
-      agentName: faker.fake("{{name.firstName}} {{name.lastName}}"),
-      agentType: agentType,
-      starCount: getRandomNumber(1, 6),
-      reviewCount: getRandomNumber(5, 1000),
-      phoneNumber: faker.fake("{{phone.phoneNumber}}")
-    })
-    return newAgent.save();
+    await Models.House.insertMany(data);
+    console.log(`Seeding data. Currently on :${id}`)
   }
-  return console.log("Agent data finished seeding.")
+  console.log("House listing data finished seeding.")
 }
 
-seedHomes();
+async function seedAgents(outer, inner) {
+  let id = 1;
+  for (var i = 0; i < outer; i++) {
+    let data = [];
+    for (var j = 0; j < inner; j++) {
+      let random = getRandomNumber(1, 10);
+      let agentType;
+      if (random <= 3) {
+        agentType = 'Seller\'s'
+      } else {
+        agentType = 'Premier'
+      }
+      let newAgent = {
+        agentId: id,
+        agentName: faker.fake("{{name.firstName}} {{name.lastName}}"),
+        agentType: agentType,
+        starCount: getRandomNumber(1, 6),
+        reviewCount: getRandomNumber(5, 1000),
+        phoneNumber: faker.fake("{{phone.phoneNumber}}")
+      }
+      data.push(newAgent);
+      id += 1;
+    }
+    await Models.Agent.insertMany(data)
+    console.log(`Seeding agent data. Currently on: ${id}`)
+  }
+  console.log("Agent data finished seeding.")
+}
+
+module.exports = {
+  seedAgents,
+  seedHomes
+}
