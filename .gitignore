@@ -1,4 +1,5 @@
 node_modules
 package-lock.json
+newrelic.js
 
 client/dist/bundle.js

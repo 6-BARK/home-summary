@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const port = 3002;
 const path = require('path');
