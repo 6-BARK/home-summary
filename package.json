@@ -6,9 +6,9 @@
   "scripts": {
     "build": "webpack",
     "watchbuild": "webpack --watch",
-    "devServer": "nodemon server/index.js",
+    "server": "NODE_ENV=production node database/seedDB.js && NODE_ENV=production node server/index.js",
     "seedDB": "node database/seedDB.js",
-    "start": "NODE_ENV=production node database/seedDB.js && NODE_ENV=production node server/index.js",
+    "start": "nodemon server/index.js",
     "test": "jest",
     "mongoDb": "nodemon database/mongo/db.js",
     "seedMongoHomes": "node database/mongo/seedHomes.js",

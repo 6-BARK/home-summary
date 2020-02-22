@@ -36,12 +36,19 @@ const contactSchema = new Schema({
   customerMessage: String   // customer's message in request
 })
 
+const houseCounter = new Schema({
+  id: String,
+  sequence_value: Number
+})
+
 const House = mongoose.model('houses', houseSchema);
 const Agent = mongoose.model('agents', agentSchema);
 const Contact = mongoose.model('contactRequests', contactSchema);
+const Counter = mongoose.model('counters', houseCounter);
 
 module.exports = {
   House,
   Agent,
-  Contact
+  Contact,
+  Counter
 }

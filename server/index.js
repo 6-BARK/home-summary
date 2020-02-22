@@ -1,24 +1,25 @@
 const express = require('express');
 const port = 3002;
 const path = require('path');
+const controller = require('./controller.js');
 
 const retrieve = require('../database/retrieve.js'); // module for query a specific house in DB
 
 // set up server
 var app = express();
 app.set('port', port);
-
+app.use(express.json());
 // parsing
 app.use(express.urlencoded({'extended': true}));
 
 // specify the directory of static files
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-app.post('/api/listing', (req, res) => {
-  let newData = req.body;
+// endpoint for adding new home listing
+app.post('/api/listing', controller.handleNewListing);
 
-  res.send('post request');
-})
+// endpoint for adding new agent
+app.post('/api/agents', controller.handleNewAgent);
 
 // response to request
 app.get('/api/summary/data/:id', (req, res) =>{

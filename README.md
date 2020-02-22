@@ -18,12 +18,16 @@ If agent does not have an ID, create the agent's information first with API endp
       price: integer not null,
       bedCount: smallint not null,
       bathCount: smallint not null,
-      address: text not null,
       sqft: interger not null,
+      streetAddress: text not null,
+      city: text not null,
+      state: text not null,
+      zipcode: text not null,
       listingType: text not null,
       zestimate: integer not null,
       estPayment: integer not null,
-      primaryAgent: integer (agentId) }
+      primaryAgent: integer (agentId),
+      allAgents: ${array of agent ids} }
   - Response expected:
     A success message:
     'Listing successfully created'
