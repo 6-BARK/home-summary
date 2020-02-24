@@ -12,7 +12,8 @@
     "test": "jest",
     "mongoDb": "nodemon database/mongo/db.js",
     "seedMongoHomes": "node database/mongo/seedHomes.js",
-    "seedMongoAgents": "node database/mongo/seedAgents.js"
+    "seedMongoAgents": "node database/mongo/seedAgents.js",
+    "k6": "k6 run http_get.js"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,8 @@
     "faker": "^4.1.0",
     "fs": "0.0.1-security",
     "mongoose": "^5.8.9",
+    "morgan": "^1.9.1",
+    "newrelic": "^6.4.1",
     "pg": "^7.18.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
