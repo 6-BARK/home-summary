@@ -32,7 +32,11 @@ const handleGetListing = (req, res) => {
     if (err) {
       res.sendStatus(500);
     }
-    res.send(listing);
+    if (listing === null) {
+      res.status(200).send('No such listing!');
+    } else {
+      res.status(200).send(listing);
+    }
   })
 }
 //Get agent data
@@ -42,7 +46,11 @@ const handleGetAgent = (req, res) => {
     if (err) {
       res.sendStatus(500);
     }
-    res.send(agent);
+    if (agent === null) {
+      res.status(200).send('No agent found!');
+    } else {
+      res.status(200).send(agent)
+    }
   })
 }
 

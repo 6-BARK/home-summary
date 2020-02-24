@@ -3,6 +3,7 @@ const express = require('express');
 const port = 3002;
 const path = require('path');
 const controller = require('./controller.js');
+const morgan = require('morgan');
 
 const retrieve = require('../database/retrieve.js'); // module for query a specific house in DB
 
@@ -10,6 +11,7 @@ const retrieve = require('../database/retrieve.js'); // module for query a speci
 var app = express();
 app.set('port', port);
 app.use(express.json());
+app.use(morgan("dev"));
 // parsing
 app.use(express.urlencoded({'extended': true}));
 

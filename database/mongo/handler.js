@@ -24,11 +24,7 @@ const getListing = (id, callback) => {
     if (err) {
       callback(err);
     }
-    if (listing === null) {
-      callback(null, 'No such home listing.');
-    } else {
-      callback(null, listing);
-    }
+    callback(null, listing)
   })
 }
 
@@ -40,11 +36,7 @@ const getAgent = (id, callback) => {
     if (err) {
       callback(err);
     }
-    if (agent === null) {
-      callback(null, 'No matching agent.');
-    } else {
-      callback(null, agent);
-    }
+    callback(null, agent);
   })
 }
 
