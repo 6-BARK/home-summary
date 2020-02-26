@@ -13,12 +13,11 @@ export let options = {
 }
 
 export default function() {
-  let random = getRandomNumber(1, 1000000);
-  let res = http.get(`http://localhost:3002/api/agents/${random}/data`);
+  let random = getRandomNumber(1, 10000001);
+  let res = http.get(`http://localhost:3000/api/listing/${random}/data`);
   check(res, {
     "status was okay": (r) => r.status === 200,
     "transaction time OK": (r) => r.timings.duration < 2000,
     "failed": (r) => r.status === 500
   });
-  sleep(1);
 }

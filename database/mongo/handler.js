@@ -17,15 +17,21 @@ const postAgent = (data, callback) => {
 }
 
 const getListing = (id, callback) => {
-  let query = mongo.House.where({
-    houseId: id
-  })
-  query.findOne((err, listing) => {
-    if (err) {
-      callback(err);
+  // let query = mongo.House.where({
+  //   houseId: id
+  // })
+  // query.find((err, listing) => {
+  //   if (err) {
+  //     callback(err);
+  //   }
+  //   callback(null, listing)
+  // })
+  mongo.House.find({"houseId":id}, (error, house) => {
+    if (error) {
+      callback(error)
     }
-    callback(null, listing)
-  })
+    callback(null, house)
+  }).limit(1);
 }
 
 const getAgent = (id, callback) => {
